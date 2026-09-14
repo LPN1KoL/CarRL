@@ -1,11 +1,10 @@
-import math
 import pygame
 from movement import Car
 
 pygame.init()
 
 
-screen = pygame.display.set_mode((1080, 720))
+screen = pygame.display.set_mode((1380, 820))
 pygame.display.set_caption("Need for Speed")
 clock = pygame.time.Clock()
 
@@ -13,6 +12,7 @@ clock = pygame.time.Clock()
 def run():
     running = True
     car = Car(100, 100)
+    car_image = car.draw
 
     while running:
         for event in pygame.event.get():
@@ -22,24 +22,21 @@ def run():
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            car.angle -= 5
+            car.turn_left()
         if keys[pygame.K_d]:
-            car.angle += 5
+            car.turn_right()
         if keys[pygame.K_w]:
             car.forward()
-        if keys[pygame.K_s]:
+        elif keys[pygame.K_s]:
             car.backward()
-        if not any([keys[pygame.K_w], keys[pygame.K_s], keys[pygame.K_a], keys[pygame.K_d]]):
+        else:
             car.stop()
+        car.move()
 
-
-        car_image = pygame.Surface((40, 20), pygame.SRCALPHA)
-        car_image.fill((200, 50, 50))
-        rotated = pygame.transform.rotate(car_image, car.angle)
-        rect = rotated.get_rect(center=(car.x, car.y))
-        screen.blit(rotated, rect)
+        car.display(screen, car_image)
         pygame.display.flip()
-        clock.tick(60)
+
+        clock.tick(30)
 
     pygame.quit()
 
