@@ -14,6 +14,8 @@ class Car:
         self.speed = 0
         self.L = 30
         self.steering = 0
+        self.next_checkpoint = 0
+        self.image = self.draw()
 
 
     def forward(self):
@@ -61,14 +63,14 @@ class Car:
             self.steering = -30
 
 
-    def display(self, screen, car_image):
-        rotated = pygame.transform.rotate(car_image, self.angle)
+    def display(self, screen):
+        rotated = pygame.transform.rotate(self.image, self.angle)
         rect = rotated.get_rect(center=(self.x, self.y))
         screen.blit(rotated, rect)
 
 
-    @property
-    def draw(self):
+    @staticmethod
+    def draw():
         car_image = pygame.Surface((40, 20), pygame.SRCALPHA)
         car_image.fill((200, 50, 50))
         pygame.draw.rect(car_image, (100, 180, 220), (25, 3, 10, 14))
@@ -76,3 +78,4 @@ class Car:
         pygame.draw.rect(car_image, (200, 200, 100), (37, 2, 3, 5))
         pygame.draw.rect(car_image, (200, 200, 100), (37, 13, 3, 5))
         return car_image
+
